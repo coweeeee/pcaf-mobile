@@ -244,17 +244,22 @@ and therefore comparable to a benchmark.
 | 1 | Verified reported (third-party assured) | — |
 | 2 | Unverified self-reported | — |
 | 3 | Calculated from primary physical activity data | Climate TRACE / EPA at high entity-match confidence |
-| 4 | Estimated from proxy physical activity data | Climate TRACE / EPA at medium or low confidence |
+| 4 | Estimated from proxy physical activity data | — (no data source; code maps medium/low entity-match confidence here) |
 | 5 | Sector-average economic data | the proxy fallback |
 
-Scores 1 and 2 require company-reported inventories, which no free source publishes at this breadth.
-The full scale is implemented so a licensed vendor feed populates the top of it without any
-calculation code changing.
+**Only scores 3 and 5 are occupied, and that is the honest answer rather than a gap to close.** The
+scale is not collapsing — it is reflecting which of the five PCAF methodologies this pipeline
+actually has a data source for:
 
-Score 4 is currently unoccupied, which is a consequence of the guard rather than an oversight: a
-facility rollup either clears the coverage threshold at high match confidence (3) or is rejected
-outright to the proxy (5). Loosening the guard to populate 4 would mean publishing partial rollups,
-which is the thing the guard exists to prevent.
+- **1 and 2** need company-reported inventories, which no free source publishes at this breadth.
+- **4** means proxy *physical* activity data — floor area, production units, employee headcount — run
+  through regional emission factors. There is no free source for that either, so tier 4 was never
+  reachable here; it is not something the coverage guard displaced.
+- **3 and 5** are what Climate TRACE, EPA GHGRP and a revenue proxy can support.
+
+The full scale is implemented so a licensed vendor feed populates the rest of it without any
+calculation code changing. Deliberately not done: loosening the coverage guard to make score 4 look
+occupied, which would mean publishing partial rollups — exactly what the guard exists to prevent.
 
 ### Coverage is reported, never assumed
 
@@ -473,10 +478,15 @@ bonds would use the same EVIC denominator; loans, mortgages and project finance 
 
 **Two data files from the previous build were removed**, not left as dead weight:
 `emissions_reported.csv` (32 hand-curated company disclosures) and `universe_tickers.csv` (the old
-82-ticker universe). The curated table would have populated PCAF score 2, which nothing else here
-can reach — but this brief's ground rules require every number to trace to SEC EDGAR, Climate TRACE,
-EPA GHGRP or the sector formula, and a hand-maintained table is none of those. It is in git history
-if a future build wants it back as an explicit fourth tier.
+82-ticker universe). The curated table would have populated PCAF score 2, which nothing else here can
+reach — but this brief's ground rules require every number to trace to SEC EDGAR, Climate TRACE, EPA
+GHGRP or the sector formula, and a hand-maintained table is none of those.
+
+It stays a real future option, and there is a right way to bring it back: as **its own explicitly
+labelled tier** — PCAF 2, "self-reported, unverified" — carrying the same source, vintage and
+confidence discipline as every other tier, with its own badge in the UI. What it must not be is
+quietly folded into the estimate path, where a company-reported inventory and a revenue proxy would
+become indistinguishable to the reader. It is in git history.
 
 **`tsc --noEmit` takes ~2 minutes** on this project — expo-router's generated route types plus 501
 companies of JSON. It is slow, not hung.
