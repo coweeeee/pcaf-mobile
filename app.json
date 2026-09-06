@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.pcafdemo.financedemissions",
+      "bundleIdentifier": "com.coweeeee.pcafmobile",
       "buildNumber": "1",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
@@ -20,7 +20,7 @@
       }
     },
     "android": {
-      "package": "com.pcafdemo.financedemissions",
+      "package": "com.coweeeee.pcafmobile",
       "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#E3F1EE",
@@ -53,6 +53,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "afdef701-e970-4b2e-a134-64aea7c15919"
+      }
+    },
+    "owner": "cowee"
   }
 }
