@@ -1,0 +1,83 @@
+ticker,gics_sector
+AAPL,Information Technology
+MSFT,Information Technology
+NVDA,Information Technology
+AVGO,Information Technology
+ORCL,Information Technology
+CRM,Information Technology
+AMD,Information Technology
+INTC,Information Technology
+CSCO,Information Technology
+ACN,Information Technology
+TXN,Information Technology
+IBM,Information Technology
+GOOGL,Communication Services
+META,Communication Services
+NFLX,Communication Services
+DIS,Communication Services
+T,Communication Services
+VZ,Communication Services
+CMCSA,Communication Services
+AMZN,Consumer Discretionary
+TSLA,Consumer Discretionary
+HD,Consumer Discretionary
+MCD,Consumer Discretionary
+NKE,Consumer Discretionary
+LOW,Consumer Discretionary
+SBUX,Consumer Discretionary
+PG,Consumer Staples
+KO,Consumer Staples
+PEP,Consumer Staples
+WMT,Consumer Staples
+COST,Consumer Staples
+PM,Consumer Staples
+MDLZ,Consumer Staples
+JNJ,Health Care
+PFE,Health Care
+MRK,Health Care
+ABBV,Health Care
+UNH,Health Care
+LLY,Health Care
+TMO,Health Care
+AMGN,Health Care
+JPM,Financials
+BAC,Financials
+WFC,Financials
+GS,Financials
+MS,Financials
+C,Financials
+V,Financials
+MA,Financials
+BLK,Financials
+CAT,Industrials
+BA,Industrials
+HON,Industrials
+GE,Industrials
+UNP,Industrials
+UPS,Industrials
+LMT,Industrials
+RTX,Industrials
+DE,Industrials
+XOM,Energy
+CVX,Energy
+COP,Energy
+SLB,Energy
+EOG,Energy
+PSX,Energy
+NEE,Utilities
+DUK,Utilities
+SO,Utilities
+D,Utilities
+AEP,Utilities
+EXC,Utilities
+LIN,Materials
+SHW,Materials
+APD,Materials
+NUE,Materials
+FCX,Materials
+DOW,Materials
+PLD,Real Estate
+AMT,Real Estate
+EQIX,Real Estate
+SPG,Real Estate
+O,Real Estate

@@ -1,0 +1,122 @@
+[
+ {
+  "ticker": "AAPL",
+  "marketValueUsd": 8200000.0
+ },
+ {
+  "ticker": "MSFT",
+  "marketValueUsd": 7600000.0
+ },
+ {
+  "ticker": "NVDA",
+  "marketValueUsd": 7800000.0
+ },
+ {
+  "ticker": "GOOGL",
+  "marketValueUsd": 4800000.0
+ },
+ {
+  "ticker": "AMZN",
+  "marketValueUsd": 4500000.0
+ },
+ {
+  "ticker": "META",
+  "marketValueUsd": 3400000.0
+ },
+ {
+  "ticker": "ORCL",
+  "marketValueUsd": 2100000.0
+ },
+ {
+  "ticker": "XOM",
+  "marketValueUsd": 4300000.0
+ },
+ {
+  "ticker": "CVX",
+  "marketValueUsd": 3100000.0
+ },
+ {
+  "ticker": "SLB",
+  "marketValueUsd": 900000.0
+ },
+ {
+  "ticker": "JPM",
+  "marketValueUsd": 4200000.0
+ },
+ {
+  "ticker": "BAC",
+  "marketValueUsd": 2400000.0
+ },
+ {
+  "ticker": "GS",
+  "marketValueUsd": 2200000.0
+ },
+ {
+  "ticker": "JNJ",
+  "marketValueUsd": 3000000.0
+ },
+ {
+  "ticker": "PFE",
+  "marketValueUsd": 1300000.0
+ },
+ {
+  "ticker": "LLY",
+  "marketValueUsd": 3100000.0
+ },
+ {
+  "ticker": "UNH",
+  "marketValueUsd": 2500000.0
+ },
+ {
+  "ticker": "PG",
+  "marketValueUsd": 2600000.0
+ },
+ {
+  "ticker": "KO",
+  "marketValueUsd": 2000000.0
+ },
+ {
+  "ticker": "WMT",
+  "marketValueUsd": 3200000.0
+ },
+ {
+  "ticker": "HD",
+  "marketValueUsd": 2400000.0
+ },
+ {
+  "ticker": "CAT",
+  "marketValueUsd": 1900000.0
+ },
+ {
+  "ticker": "BA",
+  "marketValueUsd": 1200000.0
+ },
+ {
+  "ticker": "NEE",
+  "marketValueUsd": 2400000.0
+ },
+ {
+  "ticker": "DUK",
+  "marketValueUsd": 1800000.0
+ },
+ {
+  "ticker": "EXC",
+  "marketValueUsd": 1200000.0
+ },
+ {
+  "ticker": "T",
+  "marketValueUsd": 1500000.0
+ },
+ {
+  "ticker": "SHW",
+  "marketValueUsd": 1100000.0
+ },
+ {
+  "ticker": "PLD",
+  "marketValueUsd": 1400000.0
+ },
+ {
+  "ticker": "AMT",
+  "marketValueUsd": 1500000.0
+ }
+]

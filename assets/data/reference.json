@@ -1,0 +1,88 @@
+{
+ "generated_at": "2026-09-05T22:02:05+00:00",
+ "financial_data_source": "Yahoo Finance via yfinance (market cap, total debt, minority interest, trailing revenue)",
+ "company_count": 82,
+ "reported_tier_count": 32,
+ "estimated_tier_count": 50,
+ "excluded": [],
+ "sector_gics_disagreements": [],
+ "sector_intensity": [
+  {
+   "sector": "Energy",
+   "avg_intensity_tco2e_per_musd_revenue": 420.0,
+   "scope3_multiplier": 8.0,
+   "basis_note": "Scope 1+2 per $M revenue. Integrated majors sit near 250-300; refiners and oilfield services pull the sector mean higher.",
+   "source": "CDP/Trucost-style sector aggregates for developed-market large caps; cross-checked against XOM/CVX/COP disclosed S1+2 over reported revenue."
+  },
+  {
+   "sector": "Utilities",
+   "avg_intensity_tco2e_per_musd_revenue": 2100.0,
+   "scope3_multiplier": 0.8,
+   "basis_note": "Dominated by owned thermal generation. Regulated US utilities disclosed 1700-3000 tCO2e/$M in FY2023-24.",
+   "source": "Derived from NEE, DUK, SO, AEP, D disclosed Scope 1 over reported revenue."
+  },
+  {
+   "sector": "Materials",
+   "avg_intensity_tco2e_per_musd_revenue": 750.0,
+   "scope3_multiplier": 3.5,
+   "basis_note": "Industrial gases, cement, steel and commodity chemicals. Steel and cement are far above the mean; specialty chemicals below.",
+   "source": "EPA GHGRP facility data aggregated to sector; cross-checked against LIN and NUE disclosures."
+  },
+  {
+   "sector": "Industrials",
+   "avg_intensity_tco2e_per_musd_revenue": 140.0,
+   "scope3_multiplier": 12.0,
+   "basis_note": "Machinery and aerospace manufacturers are low (20-40); railroads, airlines and freight are 400-700 and raise the mean.",
+   "source": "Cross-checked against CAT, BA, UNP and UPS disclosed S1+2 over reported revenue."
+  },
+  {
+   "sector": "Consumer Discretionary",
+   "avg_intensity_tco2e_per_musd_revenue": 40.0,
+   "scope3_multiplier": 12.0,
+   "basis_note": "Retail and restaurants are asset-light in Scope 1+2; autos are moderate. Scope 3 use-phase dominates.",
+   "source": "Cross-checked against HD, MCD, NKE, TSLA disclosures."
+  },
+  {
+   "sector": "Consumer Staples",
+   "avg_intensity_tco2e_per_musd_revenue": 85.0,
+   "scope3_multiplier": 8.0,
+   "basis_note": "Food and beverage processing plus owned distribution fleets. Retailers sit near 20-25; packaged food higher.",
+   "source": "Cross-checked against WMT, PG, KO, PEP disclosures."
+  },
+  {
+   "sector": "Health Care",
+   "avg_intensity_tco2e_per_musd_revenue": 22.0,
+   "scope3_multiplier": 12.0,
+   "basis_note": "Pharma manufacturing and lab energy use. Managed-care and distribution names are near zero.",
+   "source": "Cross-checked against JNJ, PFE, MRK disclosures."
+  },
+  {
+   "sector": "Financials",
+   "avg_intensity_tco2e_per_musd_revenue": 10.0,
+   "scope3_multiplier": 6.0,
+   "basis_note": "Operational footprint only: offices, data centres, business travel. Excludes Scope 3 Category 15 (financed emissions) by design - see note.",
+   "source": "Cross-checked against JPM and BAC operational GHG disclosures."
+  },
+  {
+   "sector": "Information Technology",
+   "avg_intensity_tco2e_per_musd_revenue": 30.0,
+   "scope3_multiplier": 25.0,
+   "basis_note": "Software and hardware design are near zero; semiconductor fabs are 60-100 and set the sector mean.",
+   "source": "Cross-checked against AAPL, MSFT, INTC disclosures."
+  },
+  {
+   "sector": "Communication Services",
+   "avg_intensity_tco2e_per_musd_revenue": 20.0,
+   "scope3_multiplier": 8.0,
+   "basis_note": "Network operators carry most of the sector's Scope 1+2; platform and media businesses are close to zero on a market basis.",
+   "source": "Cross-checked against T, VZ, GOOGL, META disclosures."
+  },
+  {
+   "sector": "Real Estate",
+   "avg_intensity_tco2e_per_musd_revenue": 90.0,
+   "scope3_multiplier": 3.0,
+   "basis_note": "Landlord-controlled common-area energy. Highly sensitive to whether tenant energy is treated as Scope 1/2 or Scope 3.",
+   "source": "REIT sector aggregates; cross-checked against PLD and EQIX disclosures."
+  }
+ ]
+}

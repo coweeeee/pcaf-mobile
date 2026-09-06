@@ -1,0 +1,12 @@
+gics_sector,avg_intensity_tco2e_per_musd_revenue,scope3_multiplier,basis_note,source
+Energy,420.0,8.0,"Scope 1+2 per $M revenue. Integrated majors sit near 250-300; refiners and oilfield services pull the sector mean higher.","CDP/Trucost-style sector aggregates for developed-market large caps; cross-checked against XOM/CVX/COP disclosed S1+2 over reported revenue."
+Utilities,2100.0,0.8,"Dominated by owned thermal generation. Regulated US utilities disclosed 1700-3000 tCO2e/$M in FY2023-24.","Derived from NEE, DUK, SO, AEP, D disclosed Scope 1 over reported revenue."
+Materials,750.0,3.5,"Industrial gases, cement, steel and commodity chemicals. Steel and cement are far above the mean; specialty chemicals below.","EPA GHGRP facility data aggregated to sector; cross-checked against LIN and NUE disclosures."
+Industrials,140.0,12.0,"Machinery and aerospace manufacturers are low (20-40); railroads, airlines and freight are 400-700 and raise the mean.","Cross-checked against CAT, BA, UNP and UPS disclosed S1+2 over reported revenue."
+Consumer Discretionary,40.0,12.0,"Retail and restaurants are asset-light in Scope 1+2; autos are moderate. Scope 3 use-phase dominates.","Cross-checked against HD, MCD, NKE, TSLA disclosures."
+Consumer Staples,85.0,8.0,"Food and beverage processing plus owned distribution fleets. Retailers sit near 20-25; packaged food higher.","Cross-checked against WMT, PG, KO, PEP disclosures."
+Health Care,22.0,12.0,"Pharma manufacturing and lab energy use. Managed-care and distribution names are near zero.","Cross-checked against JNJ, PFE, MRK disclosures."
+Financials,10.0,6.0,"Operational footprint only: offices, data centres, business travel. Excludes Scope 3 Category 15 (financed emissions) by design - see note.","Cross-checked against JPM and BAC operational GHG disclosures."
+Information Technology,30.0,25.0,"Software and hardware design are near zero; semiconductor fabs are 60-100 and set the sector mean.","Cross-checked against AAPL, MSFT, INTC disclosures."
+Communication Services,20.0,8.0,"Network operators carry most of the sector's Scope 1+2; platform and media businesses are close to zero on a market basis.","Cross-checked against T, VZ, GOOGL, META disclosures."
+Real Estate,90.0,3.0,"Landlord-controlled common-area energy. Highly sensitive to whether tenant energy is treated as Scope 1/2 or Scope 3.","REIT sector aggregates; cross-checked against PLD and EQIX disclosures."
