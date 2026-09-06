@@ -1,39 +1,598 @@
 {
- "generated_at": "2026-09-05T22:02:05+00:00",
- "financial_data_source": "Yahoo Finance via yfinance (market cap, total debt, minority interest, trailing revenue)",
- "company_count": 82,
- "reported_tier_count": 32,
- "estimated_tier_count": 50,
- "excluded": [],
- "sector_gics_disagreements": [],
+ "generated_at": "2026-09-06T18:20:34+00:00",
+ "company_count": 501,
+ "excluded": [
+  {
+   "ticker": "APA",
+   "reason": "no usable revenue in SEC XBRL"
+  },
+  {
+   "ticker": "SYF",
+   "reason": "no usable revenue in SEC XBRL"
+  }
+ ],
+ "financial_data_source": "SEC EDGAR XBRL (frames API, CompanyFacts fallback)",
+ "financial_data_url": "https://data.sec.gov/api/xbrl/",
+ "market_cap_basis": "yfinance last price x SEC-reported shares outstanding",
+ "emissions_sources": {
+  "climatetrace": {
+   "source": "Climate TRACE v6 assets API",
+   "url": "https://api.climatetrace.org/v6/assets",
+   "vintage": "2024",
+   "companies": 19,
+   "subsector_owner_coverage": {
+    "electricity-generation": {
+     "assets": 2528,
+     "with_owner": 2350,
+     "without_owner": 178
+    },
+    "heat-plants": {
+     "assets": 0,
+     "with_owner": 0,
+     "without_owner": 0
+    },
+    "oil-and-gas-production": {
+     "assets": 320,
+     "with_owner": 0,
+     "without_owner": 320
+    },
+    "oil-and-gas-refining": {
+     "assets": 134,
+     "with_owner": 134,
+     "without_owner": 0
+    },
+    "oil-and-gas-transport": {
+     "assets": 320,
+     "with_owner": 0,
+     "without_owner": 320
+    },
+    "coal-mining": {
+     "assets": 692,
+     "with_owner": 556,
+     "without_owner": 136
+    },
+    "other-fossil-fuel-operations": {
+     "assets": 0,
+     "with_owner": 0,
+     "without_owner": 0
+    },
+    "iron-and-steel": {
+     "assets": 75,
+     "with_owner": 71,
+     "without_owner": 4
+    },
+    "aluminum": {
+     "assets": 10,
+     "with_owner": 2,
+     "without_owner": 8
+    },
+    "cement": {
+     "assets": 86,
+     "with_owner": 86,
+     "without_owner": 0
+    },
+    "lime": {
+     "assets": 122,
+     "with_owner": 0,
+     "without_owner": 122
+    },
+    "glass": {
+     "assets": 118,
+     "with_owner": 0,
+     "without_owner": 118
+    },
+    "chemicals": {
+     "assets": 42,
+     "with_owner": 25,
+     "without_owner": 17
+    },
+    "other-chemicals": {
+     "assets": 424,
+     "with_owner": 0,
+     "without_owner": 424
+    },
+    "petrochemical-steam-cracking": {
+     "assets": 34,
+     "with_owner": 34,
+     "without_owner": 0
+    },
+    "pulp-and-paper": {
+     "assets": 1,
+     "with_owner": 1,
+     "without_owner": 0
+    },
+    "other-manufacturing": {
+     "assets": 338,
+     "with_owner": 0,
+     "without_owner": 338
+    },
+    "food-beverage-tobacco": {
+     "assets": 13995,
+     "with_owner": 0,
+     "without_owner": 13995
+    },
+    "textiles-leather-apparel": {
+     "assets": 139,
+     "with_owner": 0,
+     "without_owner": 139
+    },
+    "wood-and-wood-products": {
+     "assets": 0,
+     "with_owner": 0,
+     "without_owner": 0
+    },
+    "copper-mining": {
+     "assets": 42,
+     "with_owner": 41,
+     "without_owner": 1
+    },
+    "iron-mining": {
+     "assets": 15,
+     "with_owner": 14,
+     "without_owner": 1
+    },
+    "bauxite-mining": {
+     "assets": 0,
+     "with_owner": 0,
+     "without_owner": 0
+    },
+    "other-metals": {
+     "assets": 330,
+     "with_owner": 0,
+     "without_owner": 330
+    },
+    "other-mining-quarrying": {
+     "assets": 0,
+     "with_owner": 0,
+     "without_owner": 0
+    },
+    "rock-quarrying": {
+     "assets": 0,
+     "with_owner": 0,
+     "without_owner": 0
+    },
+    "sand-quarrying": {
+     "assets": 0,
+     "with_owner": 0,
+     "without_owner": 0
+    },
+    "domestic-aviation": {
+     "assets": 847,
+     "with_owner": 0,
+     "without_owner": 847
+    },
+    "railways": {
+     "assets": 0,
+     "with_owner": 0,
+     "without_owner": 0
+    },
+    "domestic-shipping": {
+     "assets": 814,
+     "with_owner": 0,
+     "without_owner": 814
+    },
+    "road-transportation": {
+     "assets": 3148,
+     "with_owner": 0,
+     "without_owner": 3148
+    },
+    "solid-waste-disposal": {
+     "assets": 1800,
+     "with_owner": 0,
+     "without_owner": 1800
+    },
+    "incineration-and-open-burning-of-waste": {
+     "assets": 0,
+     "with_owner": 0,
+     "without_owner": 0
+    },
+    "industrial-wastewater-treatment-and-discharge": {
+     "assets": 163,
+     "with_owner": 0,
+     "without_owner": 163
+    },
+    "non-residential-onsite-fuel-usage": {
+     "assets": 3148,
+     "with_owner": 0,
+     "without_owner": 3148
+    },
+    "fluorinated-gases": {
+     "assets": 0,
+     "with_owner": 0,
+     "without_owner": 0
+    }
+   },
+   "ownership_split_assumption": "The API exposes owner names but no ownership percentages, so an asset's emissions are split equally across its distinct owners."
+  },
+  "epa_ghgrp": {
+   "source": "EPA GHGRP via Envirofacts (PUB_DIM_FACILITY + PUB_FACTS_SECTOR_GHG_EMISSION)",
+   "available": true,
+   "vintage": "2023",
+   "companies": 3,
+   "attribution_note": "Envirofacts exposes no parent-company table, only facility_name. Only override/exact/>=96 fuzzy matches are attributed; everything else is counted as unattributed rather than guessed at.",
+   "fragility_note": "EPA has proposed eliminating most GHGRP reporting categories, so this feed may stop updating. The pipeline treats it as optional."
+  },
+  "sector_proxy": {
+   "source": "GICS sector-average intensity x SEC revenue",
+   "companies": 479
+  }
+ },
+ "coverage_guard": {
+  "reject_below_ratio": 0.5,
+  "explanation": "A facility rollup covering less than half of what the sector average implies is treated as partial coverage and rejected, because a partial rollup presented as total Scope 1 is wrong while wearing the highest-quality badge available.",
+  "rejected_count": 34,
+  "rejected": [
+   {
+    "ticker": "PG",
+    "sector": "Consumer Staples",
+    "climatetrace_tco2e": 926.9599999999999,
+    "sector_proxy_tco2e": 7164140.0,
+    "ratio": 0.00012938887291426464,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "EXC",
+    "sector": "Utilities",
+    "climatetrace_tco2e": 80670.0,
+    "sector_proxy_tco2e": 50941800.0,
+    "ratio": 0.0015835718408065676,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "CAT",
+    "sector": "Industrials",
+    "climatetrace_tco2e": 17643.8,
+    "sector_proxy_tco2e": 9462460.0,
+    "ratio": 0.0018646102599112703,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "COP",
+    "sector": "Energy",
+    "climatetrace_tco2e": 104058.7906680345,
+    "sector_proxy_tco2e": 21766080.0,
+    "ratio": 0.0047807777361855925,
+    "subsectors": [
+     "oil-and-gas-refining"
+    ]
+   },
+   {
+    "ticker": "PKG",
+    "sector": "Materials",
+    "climatetrace_tco2e": 78477.0,
+    "sector_proxy_tco2e": 6741974.999999999,
+    "ratio": 0.01164006096136518,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "PEG",
+    "sector": "Utilities",
+    "climatetrace_tco2e": 345165.0,
+    "sector_proxy_tco2e": 25552800.0,
+    "ratio": 0.013507913027143796,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "SRE",
+    "sector": "Utilities",
+    "climatetrace_tco2e": 406562.84,
+    "sector_proxy_tco2e": 26077800.0,
+    "ratio": 0.015590381090429409,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "OKE",
+    "sector": "Energy",
+    "climatetrace_tco2e": 270570.3902266311,
+    "sector_proxy_tco2e": 14124180.0,
+    "ratio": 0.01915653795311523,
+    "subsectors": [
+     "oil-and-gas-refining"
+    ]
+   },
+   {
+    "ticker": "EIX",
+    "sector": "Utilities",
+    "climatetrace_tco2e": 1124644.7899999998,
+    "sector_proxy_tco2e": 40565700.0,
+    "ratio": 0.027724032618690168,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "IP",
+    "sector": "Materials",
+    "climatetrace_tco2e": 560810.0,
+    "sector_proxy_tco2e": 17725500.0,
+    "ratio": 0.03163859975741164,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "PFE",
+    "sector": "Health Care",
+    "climatetrace_tco2e": 53334.0,
+    "sector_proxy_tco2e": 1376738.0,
+    "ratio": 0.03873939703850696,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "APD",
+    "sector": "Materials",
+    "climatetrace_tco2e": 361760.0,
+    "sector_proxy_tco2e": 9027975.0,
+    "ratio": 0.04007100152581282,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "ED",
+    "sector": "Utilities",
+    "climatetrace_tco2e": 1670646.0,
+    "sector_proxy_tco2e": 35802900.0,
+    "ratio": 0.04666230947772387,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "OXY",
+    "sector": "Energy",
+    "climatetrace_tco2e": 452375.28025887004,
+    "sector_proxy_tco2e": 9058980.0,
+    "ratio": 0.04993666839521337,
+    "subsectors": [
+     "petrochemical-steam-cracking",
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "PCG",
+    "sector": "Utilities",
+    "climatetrace_tco2e": 2642665.0,
+    "sector_proxy_tco2e": 52363500.0,
+    "ratio": 0.05046769219017063,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "FCX",
+    "sector": "Materials",
+    "climatetrace_tco2e": 1497610.1501382836,
+    "sector_proxy_tco2e": 18889500.0,
+    "ratio": 0.07928267821479042,
+    "subsectors": [
+     "copper-mining",
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "MOS",
+    "sector": "Materials",
+    "climatetrace_tco2e": 892712.1517053267,
+    "sector_proxy_tco2e": 9039300.0,
+    "ratio": 0.09875899148223057,
+    "subsectors": [
+     "chemicals",
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "KMI",
+    "sector": "Energy",
+    "climatetrace_tco2e": 639311.7548425393,
+    "sector_proxy_tco2e": 6384840.0,
+    "ratio": 0.10012964378786929,
+    "subsectors": [
+     "oil-and-gas-refining"
+    ]
+   },
+   {
+    "ticker": "MLM",
+    "sector": "Materials",
+    "climatetrace_tco2e": 550689.3507468053,
+    "sector_proxy_tco2e": 4612500.0,
+    "ratio": 0.11939064514835887,
+    "subsectors": [
+     "cement"
+    ]
+   },
+   {
+    "ticker": "CEG",
+    "sector": "Utilities",
+    "climatetrace_tco2e": 5786896.300000001,
+    "sector_proxy_tco2e": 47592300.0,
+    "ratio": 0.12159312115615342,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "STLD",
+    "sector": "Materials",
+    "climatetrace_tco2e": 1795102.8801153298,
+    "sector_proxy_tco2e": 13632435.749999998,
+    "ratio": 0.1316788072971721,
+    "subsectors": [
+     "iron-and-steel"
+    ]
+   },
+   {
+    "ticker": "MRK",
+    "sector": "Health Care",
+    "climatetrace_tco2e": 209221.9,
+    "sector_proxy_tco2e": 1430242.0,
+    "ratio": 0.14628426518029816,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "NUE",
+    "sector": "Materials",
+    "climatetrace_tco2e": 4034546.6604341944,
+    "sector_proxy_tco2e": 24370500.0,
+    "ratio": 0.16555042614776858,
+    "subsectors": [
+     "iron-and-steel"
+    ]
+   },
+   {
+    "ticker": "CVX",
+    "sector": "Energy",
+    "climatetrace_tco2e": 12884881.63899772,
+    "sector_proxy_tco2e": 77461440.0,
+    "ratio": 0.16633929912738157,
+    "subsectors": [
+     "oil-and-gas-refining",
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "DAL",
+    "sector": "Industrials",
+    "climatetrace_tco2e": 1602941.496480192,
+    "sector_proxy_tco2e": 8870960.0,
+    "ratio": 0.18069538093737228,
+    "subsectors": [
+     "oil-and-gas-refining"
+    ]
+   },
+   {
+    "ticker": "PSX",
+    "sector": "Energy",
+    "climatetrace_tco2e": 16748470.359126756,
+    "sector_proxy_tco2e": 55597920.0,
+    "ratio": 0.3012427507922375,
+    "subsectors": [
+     "oil-and-gas-refining",
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "KMB",
+    "sector": "Consumer Staples",
+    "climatetrace_tco2e": 424758.0,
+    "sector_proxy_tco2e": 1397995.0,
+    "ratio": 0.3038337046985147,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "NRG",
+    "sector": "Utilities",
+    "climatetrace_tco2e": 21401916.575,
+    "sector_proxy_tco2e": 63728700.0,
+    "ratio": 0.3358285446745344,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "AES",
+    "sector": "Utilities",
+    "climatetrace_tco2e": 8769525.0,
+    "sector_proxy_tco2e": 25689300.0,
+    "ratio": 0.34136877999789794,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "DOW",
+    "sector": "Materials",
+    "climatetrace_tco2e": 10452600.493033001,
+    "sector_proxy_tco2e": 29976000.0,
+    "ratio": 0.3486989756149253,
+    "subsectors": [
+     "petrochemical-steam-cracking",
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "LYB",
+    "sector": "Materials",
+    "climatetrace_tco2e": 8042660.942690422,
+    "sector_proxy_tco2e": 22614750.0,
+    "ratio": 0.35563784444623187,
+    "subsectors": [
+     "petrochemical-steam-cracking",
+     "chemicals"
+    ]
+   },
+   {
+    "ticker": "XOM",
+    "sector": "Energy",
+    "climatetrace_tco2e": 30073134.216482367,
+    "sector_proxy_tco2e": 84485100.0,
+    "ratio": 0.35595784601642616,
+    "subsectors": [
+     "oil-and-gas-refining",
+     "petrochemical-steam-cracking",
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "FE",
+    "sector": "Utilities",
+    "climatetrace_tco2e": 14881310.0,
+    "sector_proxy_tco2e": 31689000.0,
+    "ratio": 0.4696049102212124,
+    "subsectors": [
+     "electricity-generation"
+    ]
+   },
+   {
+    "ticker": "VLO",
+    "sector": "Energy",
+    "climatetrace_tco2e": 24829654.54371769,
+    "sector_proxy_tco2e": 51528540.0,
+    "ratio": 0.48186217858525954,
+    "subsectors": [
+     "oil-and-gas-refining",
+     "electricity-generation"
+    ]
+   }
+  ]
+ },
+ "data_quality_distribution": {
+  "1": 0,
+  "2": 0,
+  "3": 22,
+  "4": 0,
+  "5": 479
+ },
+ "financials_confidence_distribution": {
+  "high": 383,
+  "medium": 106,
+  "low": 12
+ },
  "sector_intensity": [
   {
-   "sector": "Energy",
-   "avg_intensity_tco2e_per_musd_revenue": 420.0,
+   "sector": "Communication Services",
+   "avg_intensity_tco2e_per_musd_revenue": 20.0,
    "scope3_multiplier": 8.0,
-   "basis_note": "Scope 1+2 per $M revenue. Integrated majors sit near 250-300; refiners and oilfield services pull the sector mean higher.",
-   "source": "CDP/Trucost-style sector aggregates for developed-market large caps; cross-checked against XOM/CVX/COP disclosed S1+2 over reported revenue."
-  },
-  {
-   "sector": "Utilities",
-   "avg_intensity_tco2e_per_musd_revenue": 2100.0,
-   "scope3_multiplier": 0.8,
-   "basis_note": "Dominated by owned thermal generation. Regulated US utilities disclosed 1700-3000 tCO2e/$M in FY2023-24.",
-   "source": "Derived from NEE, DUK, SO, AEP, D disclosed Scope 1 over reported revenue."
-  },
-  {
-   "sector": "Materials",
-   "avg_intensity_tco2e_per_musd_revenue": 750.0,
-   "scope3_multiplier": 3.5,
-   "basis_note": "Industrial gases, cement, steel and commodity chemicals. Steel and cement are far above the mean; specialty chemicals below.",
-   "source": "EPA GHGRP facility data aggregated to sector; cross-checked against LIN and NUE disclosures."
-  },
-  {
-   "sector": "Industrials",
-   "avg_intensity_tco2e_per_musd_revenue": 140.0,
-   "scope3_multiplier": 12.0,
-   "basis_note": "Machinery and aerospace manufacturers are low (20-40); railroads, airlines and freight are 400-700 and raise the mean.",
-   "source": "Cross-checked against CAT, BA, UNP and UPS disclosed S1+2 over reported revenue."
+   "basis_note": "Network operators carry most of the sector's Scope 1+2; platform and media businesses are close to zero on a market basis.",
+   "source": "Cross-checked against T, VZ, GOOGL, META disclosures."
   },
   {
    "sector": "Consumer Discretionary",
@@ -50,11 +609,11 @@
    "source": "Cross-checked against WMT, PG, KO, PEP disclosures."
   },
   {
-   "sector": "Health Care",
-   "avg_intensity_tco2e_per_musd_revenue": 22.0,
-   "scope3_multiplier": 12.0,
-   "basis_note": "Pharma manufacturing and lab energy use. Managed-care and distribution names are near zero.",
-   "source": "Cross-checked against JNJ, PFE, MRK disclosures."
+   "sector": "Energy",
+   "avg_intensity_tco2e_per_musd_revenue": 420.0,
+   "scope3_multiplier": 8.0,
+   "basis_note": "Scope 1+2 per $M revenue. Integrated majors sit near 250-300; refiners and oilfield services pull the sector mean higher.",
+   "source": "CDP/Trucost-style sector aggregates for developed-market large caps; cross-checked against XOM/CVX/COP disclosed S1+2 over reported revenue."
   },
   {
    "sector": "Financials",
@@ -64,6 +623,20 @@
    "source": "Cross-checked against JPM and BAC operational GHG disclosures."
   },
   {
+   "sector": "Health Care",
+   "avg_intensity_tco2e_per_musd_revenue": 22.0,
+   "scope3_multiplier": 12.0,
+   "basis_note": "Pharma manufacturing and lab energy use. Managed-care and distribution names are near zero.",
+   "source": "Cross-checked against JNJ, PFE, MRK disclosures."
+  },
+  {
+   "sector": "Industrials",
+   "avg_intensity_tco2e_per_musd_revenue": 140.0,
+   "scope3_multiplier": 12.0,
+   "basis_note": "Machinery and aerospace manufacturers are low (20-40); railroads, airlines and freight are 400-700 and raise the mean.",
+   "source": "Cross-checked against CAT, BA, UNP and UPS disclosed S1+2 over reported revenue."
+  },
+  {
    "sector": "Information Technology",
    "avg_intensity_tco2e_per_musd_revenue": 30.0,
    "scope3_multiplier": 25.0,
@@ -71,11 +644,11 @@
    "source": "Cross-checked against AAPL, MSFT, INTC disclosures."
   },
   {
-   "sector": "Communication Services",
-   "avg_intensity_tco2e_per_musd_revenue": 20.0,
-   "scope3_multiplier": 8.0,
-   "basis_note": "Network operators carry most of the sector's Scope 1+2; platform and media businesses are close to zero on a market basis.",
-   "source": "Cross-checked against T, VZ, GOOGL, META disclosures."
+   "sector": "Materials",
+   "avg_intensity_tco2e_per_musd_revenue": 750.0,
+   "scope3_multiplier": 3.5,
+   "basis_note": "Industrial gases, cement, steel and commodity chemicals. Steel and cement are far above the mean; specialty chemicals below.",
+   "source": "EPA GHGRP facility data aggregated to sector; cross-checked against LIN and NUE disclosures."
   },
   {
    "sector": "Real Estate",
@@ -83,6 +656,13 @@
    "scope3_multiplier": 3.0,
    "basis_note": "Landlord-controlled common-area energy. Highly sensitive to whether tenant energy is treated as Scope 1/2 or Scope 3.",
    "source": "REIT sector aggregates; cross-checked against PLD and EQIX disclosures."
+  },
+  {
+   "sector": "Utilities",
+   "avg_intensity_tco2e_per_musd_revenue": 2100.0,
+   "scope3_multiplier": 0.8,
+   "basis_note": "Dominated by owned thermal generation. Regulated US utilities disclosed 1700-3000 tCO2e/$M in FY2023-24.",
+   "source": "Derived from NEE, DUK, SO, AEP, D disclosed Scope 1 over reported revenue."
   }
  ]
 }

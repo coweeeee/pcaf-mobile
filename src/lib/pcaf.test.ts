@@ -53,18 +53,23 @@ function company(overrides: Partial<Company> & Pick<Company, "ticker">): Company
     minority_interest_assumed_zero: false,
     evic: 0,
     revenue_musd: 1,
-    emissions_tco2e_scope1: null,
-    emissions_tco2e_scope2_market: null,
+    revenue_tag: "Revenues",
+    financials_confidence: "high",
+    financials_vintage: "2025-12-31",
+    cik: "0000000000",
+    market_cap_basis: "test",
+    total_debt_tag: "LongTermDebtNoncurrent",
+    total_debt_basis: "long_term_plus_current",
     emissions_tco2e_scope12: 0,
     emissions_tco2e_scope3_estimated: 0,
     scope3_multiplier: 1,
     carbon_intensity_tco2e_per_musd: 0,
-    emissions_tier: "reported",
-    emissions_source: "test",
+    emissions_source: "climatetrace",
+    emissions_match_confidence: "high",
+    emissions_vintage: "2024",
     emissions_note: "test",
-    emissions_reporting_year: 2024,
-    issuer_claims_third_party_assurance: false,
-    data_quality_score: 2,
+    emissions_coverage_ratio: 1,
+    data_quality_score: 3,
     ...overrides,
   } as Company;
 }
@@ -81,7 +86,7 @@ const ALFA = company({
   emissions_tco2e_scope3_estimated: 800_000_000, // multiplier 8
   scope3_multiplier: 8,
   carbon_intensity_tco2e_per_musd: 250,
-  emissions_tier: "reported",
+  emissions_source: "climatetrace",
   data_quality_score: 2,
 });
 
@@ -97,7 +102,7 @@ const BRVO = company({
   emissions_tco2e_scope3_estimated: 50_000_000, // multiplier 25
   scope3_multiplier: 25,
   carbon_intensity_tco2e_per_musd: 10,
-  emissions_tier: "reported",
+  emissions_source: "climatetrace",
   data_quality_score: 2,
 });
 
@@ -113,7 +118,7 @@ const CHAR = company({
   emissions_tco2e_scope3_estimated: 32_000_000, // multiplier 0.8
   scope3_multiplier: 0.8,
   carbon_intensity_tco2e_per_musd: 2000,
-  emissions_tier: "estimated",
+  emissions_source: "sector_proxy",
   data_quality_score: 5,
 });
 
@@ -257,15 +262,15 @@ describe("computePortfolio — the hand-computed three-holding example", () => {
   });
 
   it("splits the reported and estimated tiers without blending them", () => {
-    expect(r.tierBreakdown.reported.count).toBe(2);
-    expect(r.tierBreakdown.reported.valueUsd).toBe(30_000_000);
-    expect(r.tierBreakdown.reported.weight).toBeCloseTo(0.6, 12);
-    expect(r.tierBreakdown.reported.financedEmissionsScope12).toBeCloseTo(1080, 9);
+    expect(r.sourceBreakdown.climatetrace.count).toBe(2);
+    expect(r.sourceBreakdown.climatetrace.valueUsd).toBe(30_000_000);
+    expect(r.sourceBreakdown.climatetrace.weight).toBeCloseTo(0.6, 12);
+    expect(r.sourceBreakdown.climatetrace.financedEmissionsScope12).toBeCloseTo(1080, 9);
 
-    expect(r.tierBreakdown.estimated.count).toBe(1);
-    expect(r.tierBreakdown.estimated.valueUsd).toBe(20_000_000);
-    expect(r.tierBreakdown.estimated.weight).toBeCloseTo(0.4, 12);
-    expect(r.tierBreakdown.estimated.financedEmissionsScope12).toBeCloseTo(4000, 9);
+    expect(r.sourceBreakdown.sector_proxy.count).toBe(1);
+    expect(r.sourceBreakdown.sector_proxy.valueUsd).toBe(20_000_000);
+    expect(r.sourceBreakdown.sector_proxy.weight).toBeCloseTo(0.4, 12);
+    expect(r.sourceBreakdown.sector_proxy.financedEmissionsScope12).toBeCloseTo(4000, 9);
   });
 
   it("counts holdings at each PCAF score", () => {

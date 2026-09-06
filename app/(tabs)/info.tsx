@@ -95,52 +95,97 @@ export default function InfoScreen() {
       <SectionHeader>Where the emissions data comes from</SectionHeader>
 
       <Card>
-        <CardTitle hint="Two tiers, never blended silently">The honest version</CardTitle>
+        <CardTitle hint="Three tiers, never blended silently">The honest version</CardTitle>
 
         <View style={{ gap: space.sm }}>
           <Text style={[type.headline as TextStyle, { color: c.success }]}>
-            Tier 1 — Reported ({REFERENCE.reported_tier_count} companies)
+            Tier 1 — Climate TRACE ({REFERENCE.emissions_sources.climatetrace.companies} companies)
           </Text>
           <Paragraph>
-            Scope 1 and market-based Scope 2 taken from the company&apos;s own published
-            sustainability report or CDP disclosure. Each carries its source and reporting year,
-            visible on the holding detail screen. Figures are recent but not always the current
-            year — a company&apos;s environmental report lands months after its financials, so the
-            most recent fully reconciled year is used and labelled.
+            Facility-level Scope 1 emissions, rolled up to the owning company through Climate
+            TRACE&apos;s ownership records. Data vintage{" "}
+            {REFERENCE.emissions_sources.climatetrace.vintage ?? "n/a"}. These score{" "}
+            <Text style={{ fontWeight: "700" }}>PCAF 3</Text> — calculated from real activity data,
+            but not a company-verified inventory.
           </Paragraph>
+        </View>
+
+        <Divider />
+
+        <View style={{ gap: space.sm }}>
+          <Text style={[type.headline as TextStyle, { color: c.accent }]}>
+            Tier 2 — EPA GHGRP ({REFERENCE.emissions_sources.epa_ghgrp.companies} companies)
+          </Text>
           <Paragraph>
-            These score <Text style={{ fontWeight: "700" }}>PCAF 2</Text> (unverified reported), not
-            1. Several of these issuers state that their disclosure was third-party assured, but we
-            have not obtained and checked those assurance statements ourselves — and score 1 means
-            verification you can evidence.
+            Direct emissions reported to the EPA Greenhouse Gas Reporting Program, vintage{" "}
+            {REFERENCE.emissions_sources.epa_ghgrp.vintage ?? "n/a"}. Also{" "}
+            <Text style={{ fontWeight: "700" }}>PCAF 3</Text>. Attribution is deliberately narrow:
+            the public service exposes only facility names, not parent companies, so only exact and
+            hand-verified matches are used.
           </Paragraph>
+          <Paragraph>{REFERENCE.emissions_sources.epa_ghgrp.fragility_note}</Paragraph>
         </View>
 
         <Divider />
 
         <View style={{ gap: space.sm }}>
           <Text style={[type.headline as TextStyle, { color: c.warning }]}>
-            Tier 2 — Estimated ({REFERENCE.estimated_tier_count} companies)
+            Tier 3 — Sector proxy ({REFERENCE.emissions_sources.sector_proxy.companies} companies)
           </Text>
           <Paragraph>
-            Everything else. Emissions are estimated as sector-average carbon intensity × the
-            company&apos;s trailing revenue, using the reference table below.
-          </Paragraph>
-          <Paragraph>
-            These score <Text style={{ fontWeight: "700" }}>PCAF 5</Text> — the weakest tier on the
-            scale, and correctly so. A revenue-based sector proxy knows nothing about the specific
-            company: an efficient operator and a laggard in the same sector with the same revenue
-            get identical numbers.
+            Everything else: GICS sector-average intensity × the company&apos;s SEC-reported
+            revenue. These score <Text style={{ fontWeight: "700" }}>PCAF 5</Text>, the weakest tier
+            on the scale, and correctly so — a revenue proxy knows nothing about the specific
+            company.
           </Paragraph>
         </View>
 
         <Divider />
 
+        <Notice tone="warning" title="Why the proxy tier is so large">
+          Climate TRACE tracks smokestacks. Most of the S&amp;P 500 — banks, software, insurers,
+          retailers, healthcare — has no facility-level footprint to roll up, so there is genuinely
+          nothing to attribute and the proxy is the only option. Of the companies that do have
+          facility data, {REFERENCE.coverage_guard.rejected_count} more were rejected by the
+          coverage guard below. In practice only pure-play generators and heavy industry can be
+          fully characterised from free facility data.
+        </Notice>
+      </Card>
+
+      <SectionHeader>The coverage guard</SectionHeader>
+
+      <Card>
         <Paragraph>
-          Financial inputs — market cap, total debt, minority interest, trailing revenue — come from
-          Yahoo Finance via yfinance for every company in both tiers. Where minority interest is not
-          reported it is treated as zero, which slightly understates EVIC and so slightly overstates
-          attribution. Holdings affected are flagged individually on their detail screen.
+          Climate TRACE&apos;s ownership records are not populated evenly. For oil and gas
+          production, waste and road transport there is no ownership data at all, so a rollup can
+          capture a fraction of a company&apos;s real footprint — an integrated oil major&apos;s
+          refineries but none of its upstream production.
+        </Paragraph>
+        <Paragraph>
+          Publishing that fraction as measured Scope 1 would be wrong AND would wear the strongest
+          badge in the app. So every rollup is compared against what the sector average implies, and
+          anything below {REFERENCE.coverage_guard.reject_below_ratio.toFixed(2)}× is rejected and
+          falls back to the estimate.
+        </Paragraph>
+        <Divider />
+        <KeyValue
+          label="Rollups rejected as partial"
+          value={`${REFERENCE.coverage_guard.rejected_count}`}
+        />
+        {REFERENCE.coverage_guard.rejected.slice(0, 6).map((r) => (
+          <View key={r.ticker} style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <Text style={[type.caption as TextStyle, { color: c.textSecondary }]}>
+              {r.ticker} · {r.sector}
+            </Text>
+            <Text style={[type.caption as TextStyle, numeric, { color: c.textTertiary }]}>
+              {r.ratio.toFixed(2)}× expected
+            </Text>
+          </View>
+        ))}
+        <Paragraph>
+          This errs toward rejecting good data rather than accepting partial data. Losing a correct
+          figure costs accuracy on one holding; keeping a partial one publishes a number that is
+          both wrong and confidently labelled.
         </Paragraph>
       </Card>
 
@@ -256,8 +301,16 @@ export default function InfoScreen() {
           value={new Date(REFERENCE.generated_at).toLocaleDateString()}
         />
         <KeyValue label="Companies in universe" value={`${REFERENCE.company_count}`} />
-        <KeyValue label="Reported tier" value={`${REFERENCE.reported_tier_count}`} />
-        <KeyValue label="Estimated tier" value={`${REFERENCE.estimated_tier_count}`} />
+        <KeyValue
+          label="Climate TRACE"
+          value={`${REFERENCE.emissions_sources.climatetrace.companies}`}
+        />
+        <KeyValue label="EPA GHGRP" value={`${REFERENCE.emissions_sources.epa_ghgrp.companies}`} />
+        <KeyValue
+          label="Sector proxy"
+          value={`${REFERENCE.emissions_sources.sector_proxy.companies}`}
+        />
+        <KeyValue label="Market cap basis" value="price × SEC shares" />
         <KeyValue label="Holdings in current portfolio" value={`${result.holdings.length}`} />
         <Divider />
         <Paragraph>{REFERENCE.financial_data_source}</Paragraph>

@@ -120,10 +120,10 @@ describe("importing a messy real-world CSV", () => {
   });
 
   it("spans both emissions tiers and scores each holding accordingly", () => {
-    const tiers = new Set(result.holdings.map((h) => h.company.emissions_tier));
+    const tiers = new Set(result.holdings.map((h) => h.company.emissions_source));
     expect(tiers.size).toBeGreaterThanOrEqual(1);
     for (const h of result.holdings) {
-      expect(h.dataQualityScore).toBe(h.company.emissions_tier === "reported" ? 2 : 5);
+      expect(h.dataQualityScore).toBe(h.company.emissions_source === "sector_proxy" ? 5 : 3);
     }
   });
 });
