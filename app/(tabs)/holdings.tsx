@@ -15,7 +15,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   Notice,
   PressableScale,
-  TierBadge,
+  SourceBadge,
   numeric,
   radius,
   space,
@@ -199,7 +199,7 @@ function HoldingRow({ holding: h }: { holding: Holding }) {
                 paddingLeft: space.md,
               }}
             >
-              <TierBadge tier={h.company.emissions_tier} score={h.dataQualityScore} compact />
+              <SourceBadge source={h.company.emissions_source} score={h.dataQualityScore} compact />
               <View style={{ flexDirection: "row", gap: space.md }}>
                 <Metric label="Weight" value={formatPct(h.weight)} />
                 <Metric label="Attribution" value={formatAttribution(h.attributionFactor)} />

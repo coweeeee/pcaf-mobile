@@ -155,19 +155,30 @@ export function Stat({
   );
 }
 
-/** Reported / Estimated pill. The badge the brief requires on every figure. */
-export function TierBadge({
-  tier,
+/**
+ * Emissions-source pill. The badge that must sit next to every emissions
+ * figure, so a facility-measured number and a sector estimate are never read as
+ * the same thing.
+ */
+export const SOURCE_LABEL: Record<string, { short: string; long: string }> = {
+  climatetrace: { short: "Climate TRACE", long: "Climate TRACE (facility data)" },
+  epa_ghgrp: { short: "EPA GHGRP", long: "EPA GHGRP (reported)" },
+  sector_proxy: { short: "Sector proxy", long: "Estimated (sector proxy)" },
+};
+
+export function SourceBadge({
+  source,
   score,
   compact = false,
 }: {
-  tier: "reported" | "estimated";
+  source: string;
   score?: number;
   compact?: boolean;
 }) {
   const c = useTheme();
-  const reported = tier === "reported";
-  const fg = reported ? c.success : c.warning;
+  const measured = source !== "sector_proxy";
+  const fg = source === "climatetrace" ? c.success : source === "epa_ghgrp" ? c.accent : c.warning;
+  const label = SOURCE_LABEL[source] ?? { short: source, long: source };
   return (
     <View
       style={{
@@ -180,6 +191,9 @@ export function TierBadge({
         borderRadius: radius.pill,
         borderWidth: StyleSheet.hairlineWidth * 2,
         borderColor: fg,
+        // Measured sources get a filled tint; the estimate stays outline-only so
+        // it never reads as the stronger of the two at a glance.
+        backgroundColor: measured ? undefined : "transparent",
       }}
     >
       <Text
@@ -188,7 +202,7 @@ export function TierBadge({
           { color: fg, fontWeight: "600" },
         ]}
       >
-        {reported ? "Reported" : compact ? "Estimated" : "Estimated (sector proxy)"}
+        {compact ? label.short : label.long}
       </Text>
       {score !== undefined ? (
         <Text style={[type.caption2 as TextStyle, numeric, { color: fg, opacity: 0.85 }]}>

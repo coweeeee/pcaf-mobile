@@ -11,7 +11,8 @@ import {
   Paragraph,
   Screen,
   SectionHeader,
-  TierBadge,
+  SOURCE_LABEL,
+  SourceBadge,
   numeric,
   space,
   type,
@@ -58,7 +59,7 @@ export default function HoldingDetailScreen() {
           <CardTitle hint={`${co.sector}${co.industry ? ` · ${co.industry}` : ""}`}>
             {co.name}
           </CardTitle>
-          <TierBadge tier={co.emissions_tier} score={h.dataQualityScore} />
+          <SourceBadge source={co.emissions_source} score={h.dataQualityScore} />
         </Card>
 
         <SectionHeader>Attribution</SectionHeader>
@@ -108,15 +109,6 @@ export default function HoldingDetailScreen() {
 
         <Card>
           <KeyValue label="Issuer Scope 1+2" value={`${formatEmissions(co.emissions_tco2e_scope12)} tCO₂e`} />
-          {co.emissions_tco2e_scope1 !== null ? (
-            <KeyValue label="— of which Scope 1" value={formatExact(co.emissions_tco2e_scope1)} />
-          ) : null}
-          {co.emissions_tco2e_scope2_market !== null ? (
-            <KeyValue
-              label="— of which Scope 2 (market)"
-              value={formatExact(co.emissions_tco2e_scope2_market)}
-            />
-          ) : null}
           <KeyValue label="× Attribution factor" value={formatAttribution(h.attributionFactor)} />
           <Divider />
           <KeyValue
@@ -204,11 +196,14 @@ export default function HoldingDetailScreen() {
           <Divider />
           <Text style={[type.footnote as TextStyle, { color: c.textSecondary }]}>
             <Text style={{ fontWeight: "700" }}>Source: </Text>
-            {co.emissions_source}
-            {co.emissions_reporting_year ? ` (reporting year ${co.emissions_reporting_year})` : ""}
+            {SOURCE_LABEL[co.emissions_source]?.long ?? co.emissions_source}
+            {co.emissions_vintage ? ` · data vintage ${co.emissions_vintage}` : ""}
+            {co.emissions_match_confidence !== "n/a"
+              ? ` · entity match ${co.emissions_match_confidence}`
+              : ""}
           </Text>
           {co.emissions_note ? (
-            co.emissions_tier === "estimated" ? (
+            co.emissions_source === "sector_proxy" ? (
               /*
                 This note explains the SECTOR average — it is emitted verbatim
                 for every estimated holding in that sector. Rendered bare under
@@ -237,12 +232,21 @@ export default function HoldingDetailScreen() {
               <Paragraph>{co.emissions_note}</Paragraph>
             )
           ) : null}
-          {co.emissions_tier === "reported" && co.issuer_claims_third_party_assurance ? (
-            <Notice title="Why this is a 2 and not a 1">
-              {co.ticker} states that this disclosure was third-party assured. We score it 2, not 1,
-              because we have not independently obtained and checked the assurance statement — and
-              PCAF score 1 requires verification we can evidence, not verification we were told
-              about.
+          {co.emissions_source !== "sector_proxy" && co.emissions_coverage_ratio !== null ? (
+            <Notice title="Coverage check">
+              This rollup is {co.emissions_coverage_ratio.toFixed(2)}× what the {co.sector} sector
+              average implies for {co.ticker}&apos;s revenue. The build keeps a facility rollup only
+              at 0.50× or above; below that it is treated as partial coverage and the holding falls
+              back to an estimate, because a partial rollup published as total Scope 1 is wrong while
+              wearing the strongest badge available.
+            </Notice>
+          ) : null}
+          {co.emissions_source === "sector_proxy" && co.emissions_coverage_ratio !== null ? (
+            <Notice tone="warning" title="Facility data was found but rejected">
+              Facility-level emissions for {co.ticker} were located, but they summed to only{" "}
+              {co.emissions_coverage_ratio.toFixed(2)}× what the sector average implies — a sign the
+              ownership data covers part of the business, not all of it. Rather than publish a
+              partial figure as a total, this holding falls back to the sector estimate.
             </Notice>
           ) : null}
         </Card>

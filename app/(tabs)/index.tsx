@@ -37,7 +37,9 @@ export default function OverviewScreen() {
 
   const waciDelta = benchmark.waci > 0 ? result.waci / benchmark.waci - 1 : 0;
   const better = waciDelta < 0;
-  const estimatedShare = result.tierBreakdown.estimated.weight;
+  const proxyShare = result.sourceBreakdown.sector_proxy.weight;
+  const measuredCount =
+    result.sourceBreakdown.climatetrace.count + result.sourceBreakdown.epa_ghgrp.count;
 
   return (
     <Screen>
@@ -168,22 +170,23 @@ export default function OverviewScreen() {
               caption="1 = best, 5 = worst"
             />
             <Stat
-              label="Emissions from estimates"
+              label="Emissions from sector estimates"
               value={formatPct(
                 result.financedEmissionsScope12 > 0
-                  ? result.tierBreakdown.estimated.financedEmissionsScope12 /
+                  ? result.sourceBreakdown.sector_proxy.financedEmissionsScope12 /
                       result.financedEmissionsScope12
                   : 0,
                 0,
               )}
-              caption={`${formatPct(estimatedShare, 0)} of portfolio value`}
+              caption={`${formatPct(proxyShare, 0)} of portfolio value`}
             />
           </View>
           <Divider />
           <Paragraph>
-            {result.tierBreakdown.reported.count} holdings use company-reported Scope 1+2 (PCAF 2);{" "}
-            {result.tierBreakdown.estimated.count} fall back to a sector-average revenue proxy
-            (PCAF 5). The two are never blended into one number without saying so.
+            {measuredCount} holdings sit on measured facility data — {result.sourceBreakdown.climatetrace.count}{" "}
+            from Climate TRACE, {result.sourceBreakdown.epa_ghgrp.count} from EPA GHGRP (PCAF 3).{" "}
+            {result.sourceBreakdown.sector_proxy.count} fall back to a sector-average revenue proxy
+            (PCAF 5). The tiers are never blended into one number without saying so.
           </Paragraph>
           <Link href="/quality" style={{ color: c.accent, ...(type.subhead as object) }}>
             Open the score heatmap →

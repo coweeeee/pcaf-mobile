@@ -61,40 +61,78 @@ describe("generated universe.json", () => {
     }
   });
 
-  it("assigns exactly score 2 to every reported holding and 5 to every estimated one", () => {
+  it("maps every emissions source to the PCAF score the methodology requires", () => {
     for (const c of universe) {
-      if (c.emissions_tier === "reported") {
-        expect(c.data_quality_score, c.ticker).toBe(2);
-        expect(c.emissions_reporting_year, c.ticker).toBeGreaterThan(2015);
-        expect(c.emissions_source.length, c.ticker).toBeGreaterThan(10);
-      } else {
-        expect(c.emissions_tier, c.ticker).toBe("estimated");
+      if (c.emissions_source === "sector_proxy") {
+        // Sector-average economic data is level 5 by definition.
         expect(c.data_quality_score, c.ticker).toBe(5);
-        expect(c.emissions_source, c.ticker).toMatch(/Sector-average economic proxy/);
+        expect(c.emissions_match_confidence, c.ticker).toBe("n/a");
+        expect(c.emissions_vintage, c.ticker).toBeNull();
+      } else {
+        // Facility/reported activity data: 3 at high entity-match confidence,
+        // 4 when the match was weaker.
+        expect(["climatetrace", "epa_ghgrp"], c.ticker).toContain(c.emissions_source);
+        expect(c.data_quality_score, c.ticker).toBe(
+          c.emissions_match_confidence === "high" ? 3 : 4,
+        );
+        expect(c.emissions_vintage, c.ticker).toBeTruthy();
       }
     }
   });
 
-  it("derives every estimated figure from the published sector intensity", () => {
+  it("derives every sector-proxy figure from the published sector intensity", () => {
     const bySector = new Map<string, number>(
       reference.sector_intensity.map((s: { sector: string; avg_intensity_tco2e_per_musd_revenue: number }) => [
         s.sector,
         s.avg_intensity_tco2e_per_musd_revenue,
       ]),
     );
-    for (const c of universe.filter((c) => c.emissions_tier === "estimated")) {
+    for (const c of universe.filter((c) => c.emissions_source === "sector_proxy")) {
       expect(c.carbon_intensity_tco2e_per_musd, c.ticker).toBeCloseTo(bySector.get(c.sector)!, 3);
     }
   });
 
-  it("has both tiers well represented", () => {
-    const reported = universe.filter((c) => c.emissions_tier === "reported").length;
-    expect(reported).toBeGreaterThanOrEqual(25);
-    expect(universe.length - reported).toBeGreaterThan(10);
+  it("carries full provenance on every record", () => {
+    for (const c of universe) {
+      expect(c.cik, c.ticker).toMatch(/^\d{10}$/);
+      expect(["high", "medium", "low"], c.ticker).toContain(c.financials_confidence);
+      // Revenue is the WACI denominator; a null vintage would mean we cannot say
+      // what period the figure describes.
+      expect(c.financials_vintage, c.ticker).toBeTruthy();
+      expect(c.market_cap_basis, c.ticker).toBeTruthy();
+    }
   });
 
-  it("recorded no dropped tickers in the build", () => {
-    expect(reference.excluded).toEqual([]);
+  it("never keeps a facility rollup below the coverage guard", () => {
+    const threshold = reference.coverage_guard.reject_below_ratio;
+    for (const c of universe.filter((c) => c.emissions_source !== "sector_proxy")) {
+      // A kept rollup must have cleared the guard. This is the invariant that
+      // stops a partial rollup being published as a total.
+      expect(c.emissions_coverage_ratio, c.ticker).not.toBeNull();
+      expect(c.emissions_coverage_ratio!, c.ticker).toBeGreaterThanOrEqual(threshold);
+    }
+    for (const r of reference.coverage_guard.rejected) {
+      expect(r.ratio, r.ticker).toBeLessThan(threshold);
+    }
+  });
+
+  it("has measured facility data for at least the big generators", () => {
+    const measured = universe.filter((c) => c.emissions_source !== "sector_proxy");
+    expect(measured.length).toBeGreaterThanOrEqual(15);
+    // Utilities are the sector Climate TRACE ownership actually covers well; if
+    // none of them resolved, entity resolution has silently broken.
+    const utilities = measured.filter((c) => c.sector === "Utilities");
+    expect(utilities.length).toBeGreaterThanOrEqual(10);
+  });
+
+  it("accounts for every dropped ticker with a reason", () => {
+    // Dropping is allowed — a filer with no usable XBRL revenue has no WACI
+    // denominator — but it must be recorded, never silent.
+    for (const e of reference.excluded) {
+      expect(e.ticker).toBeTruthy();
+      expect(e.reason.length).toBeGreaterThan(5);
+    }
+    expect(reference.excluded.length).toBeLessThan(20);
     expect(reference.company_count).toBe(universe.length);
   });
 });
@@ -142,16 +180,37 @@ describe("demo portfolio against the real universe", () => {
     }
   });
 
-  it("spans BOTH emissions tiers — the demo must actually demonstrate the tiering", () => {
-    // Regression guard: an all-reported demo portfolio renders a data-quality
-    // heatmap with a single occupied column and hides the point of the app.
+  it("spans more than one emissions source — the demo must demonstrate the tiering", () => {
+    // Regression guard: a single-source demo portfolio renders a data-quality
+    // heatmap with one occupied column and hides the point of the app.
     const r = computePortfolio(parsed.positions, universe);
-    expect(r.tierBreakdown.reported.count).toBeGreaterThan(0);
-    expect(r.tierBreakdown.estimated.count).toBeGreaterThan(0);
-    expect(r.tierBreakdown.estimated.weight).toBeGreaterThan(0.1);
-    expect(r.tierBreakdown.reported.weight).toBeGreaterThan(0.3);
-    expect(r.dataQualityScoreByValue).toBeGreaterThan(2);
-    expect(r.dataQualityScoreByValue).toBeLessThan(5);
+    expect(r.sourceBreakdown.climatetrace.count).toBeGreaterThan(0);
+    expect(r.sourceBreakdown.sector_proxy.count).toBeGreaterThan(0);
+    expect(r.dataQualityScoreByValue).toBeGreaterThan(3);
+    expect(r.dataQualityScoreByValue).toBeLessThanOrEqual(5);
+  });
+
+  it("carries most of its VALUE on estimates but most of its EMISSIONS on measured data", () => {
+    // This inversion is the single most important thing the demo shows, and it
+    // is a property of the real world rather than of the portfolio: mega-cap
+    // tech and banks dominate market value but have no facility footprint, while
+    // the two utilities carry a small weight and most of the financed tonnes.
+    //
+    // It is also why the app reports data quality weighted BOTH ways. Weighted
+    // by value the portfolio looks almost entirely estimated; weighted by
+    // financed emissions it looks far better, because the tonnes that actually
+    // matter are the ones sitting on measured facility data.
+    const r = computePortfolio(parsed.positions, universe);
+    const measuredWeight =
+      r.sourceBreakdown.climatetrace.weight + r.sourceBreakdown.epa_ghgrp.weight;
+    const measuredEmissions =
+      (r.sourceBreakdown.climatetrace.financedEmissionsScope12 +
+        r.sourceBreakdown.epa_ghgrp.financedEmissionsScope12) /
+      r.financedEmissionsScope12;
+
+    expect(measuredWeight).toBeLessThan(0.25);
+    expect(measuredEmissions).toBeGreaterThan(measuredWeight);
+    expect(r.dataQualityScoreByEmissions).toBeLessThan(r.dataQualityScoreByValue);
   });
 
   it("spans every GICS sector so the waterfall is not degenerate", () => {

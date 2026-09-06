@@ -82,26 +82,30 @@ export default function DataQualityScreen() {
 
           <Card>
             <KeyValue
-              label={`Reported (PCAF 2) — ${result.tierBreakdown.reported.count} holdings`}
-              value={formatPct(result.tierBreakdown.reported.weight)}
+              label={`Climate TRACE (PCAF 3) — ${result.sourceBreakdown.climatetrace.count} holdings`}
+              value={formatPct(result.sourceBreakdown.climatetrace.weight)}
             />
             <KeyValue
-              label={`Estimated (PCAF 5) — ${result.tierBreakdown.estimated.count} holdings`}
-              value={formatPct(result.tierBreakdown.estimated.weight)}
+              label={`EPA GHGRP (PCAF 3) — ${result.sourceBreakdown.epa_ghgrp.count} holdings`}
+              value={formatPct(result.sourceBreakdown.epa_ghgrp.weight)}
+            />
+            <KeyValue
+              label={`Sector proxy (PCAF 5) — ${result.sourceBreakdown.sector_proxy.count} holdings`}
+              value={formatPct(result.sourceBreakdown.sector_proxy.weight)}
             />
             <Divider />
             <KeyValue
-              label="Emissions resting on estimates"
+              label="Emissions resting on sector estimates"
               value={formatPct(
                 result.financedEmissionsScope12 > 0
-                  ? result.tierBreakdown.estimated.financedEmissionsScope12 /
+                  ? result.sourceBreakdown.sector_proxy.financedEmissionsScope12 /
                       result.financedEmissionsScope12
                   : 0,
               )}
             />
             <KeyValue
-              label="Value on estimates"
-              value={formatUsd(result.tierBreakdown.estimated.valueUsd)}
+              label="Value on sector estimates"
+              value={formatUsd(result.sourceBreakdown.sector_proxy.valueUsd)}
             />
           </Card>
 
@@ -147,11 +151,12 @@ export default function DataQualityScreen() {
               );
             })}
             <Divider />
-            <Notice tone="warning" title="Our data occupies two of the five levels">
-              Scores 1, 3 and 4 need inputs a free data pipeline cannot reach: an assurance
-              statement we have checked ourselves, metered activity data, or physical proxies like
-              floor area and production units. The full scale is implemented so a real vendor feed
-              would populate it without changing any calculation code.
+            <Notice tone="warning" title="Which levels this data actually reaches">
+              Scores 1 and 2 need company-reported inventories, which no free source publishes at
+              this breadth. Facility data from Climate TRACE and EPA GHGRP is measured activity
+              data, so it scores 3; everything without a usable facility rollup scores 5. The full
+              scale is implemented so a licensed vendor feed would populate the middle of it without
+              changing any calculation code.
             </Notice>
           </Card>
 

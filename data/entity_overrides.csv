@@ -1,0 +1,99 @@
+climatetrace_owner_name,ticker,parent_name,note
+# Hand-maintained owner-name -> ticker overrides for Climate TRACE entity resolution.
+#
+# Fuzzy matching cannot resolve an operating subsidiary to its listed parent:
+# "Alabama Power Co" and "Southern Company" share no tokens. Every row here is a
+# corporate-structure fact, not a spelling fix. Rows are matched on the
+# normalised owner name (see normalize_company in scripts/common.py), so legal
+# suffixes and punctuation do not need to be reproduced exactly.
+#
+# Regulated electric utilities — operating companies under a listed holdco
+Alabama Power Co,SO,Southern Company,Southern's Alabama regulated utility
+Georgia Power Co,SO,Southern Company,Southern's Georgia regulated utility
+Mississippi Power Co,SO,Southern Company,Southern's Mississippi regulated utility
+Southern Power Co,SO,Southern Company,Southern's competitive generation arm
+Duke Energy Carolinas,DUK,Duke Energy,Duke operating company
+Duke Energy Progress,DUK,Duke Energy,Duke operating company
+Duke Energy Florida,DUK,Duke Energy,Duke operating company
+Duke Energy Indiana,DUK,Duke Energy,Duke operating company
+Duke Energy Ohio,DUK,Duke Energy,Duke operating company
+Florida Power & Light Co,NEE,NextEra Energy,NextEra's regulated Florida utility
+Florida Power and Light,NEE,NextEra Energy,NextEra's regulated Florida utility
+NextEra Energy Resources,NEE,NextEra Energy,NextEra competitive generation
+Pacific Gas & Electric Co,PCG,PG&E Corporation,PG&E operating utility
+Pacific Gas and Electric,PCG,PG&E Corporation,PG&E operating utility
+Southern California Edison,EIX,Edison International,Edison's regulated utility
+San Diego Gas & Electric,SRE,Sempra,Sempra operating utility
+Southern California Gas Co,SRE,Sempra,Sempra operating utility
+Commonwealth Edison Co,EXC,Exelon,Exelon delivery utility (ComEd)
+PECO Energy Co,EXC,Exelon,Exelon delivery utility
+Baltimore Gas & Electric,EXC,Exelon,Exelon delivery utility
+Potomac Electric Power Co,EXC,Exelon,Exelon delivery utility (Pepco)
+Virginia Electric & Power Co,D,Dominion Energy,Dominion operating utility
+Dominion Energy South Carolina,D,Dominion Energy,Dominion operating utility
+Appalachian Power Co,AEP,American Electric Power,AEP operating company
+Ohio Power Co,AEP,American Electric Power,AEP operating company
+Indiana Michigan Power Co,AEP,American Electric Power,AEP operating company
+Public Service Co of Oklahoma,AEP,American Electric Power,AEP operating company
+Southwestern Electric Power Co,AEP,American Electric Power,AEP operating company
+Kentucky Power Co,AEP,American Electric Power,AEP operating company
+Oklahoma Gas & Electric Co,OGE,OGE Energy,OGE operating utility
+Public Service Electric & Gas,PEG,Public Service Enterprise Group,PSEG operating utility
+PSEG Power,PEG,Public Service Enterprise Group,PSEG generation
+Consumers Energy Co,CMS,CMS Energy,CMS operating utility
+DTE Electric Co,DTE,DTE Energy,DTE operating utility
+Consolidated Edison Co of New York,ED,Consolidated Edison,ConEd operating utility
+Northern States Power Co,XEL,Xcel Energy,Xcel operating company
+Public Service Co of Colorado,XEL,Xcel Energy,Xcel operating company
+Southwestern Public Service Co,XEL,Xcel Energy,Xcel operating company
+Wisconsin Electric Power Co,WEC,WEC Energy Group,WEC operating utility
+Wisconsin Public Service Corp,WEC,WEC Energy Group,WEC operating utility
+Union Electric Co,AEE,Ameren,Ameren Missouri
+Ameren Illinois Co,AEE,Ameren,Ameren Illinois
+Arizona Public Service Co,PNW,Pinnacle West Capital,Pinnacle West operating utility
+Nevada Power Co,BRK-B,Berkshire Hathaway,Berkshire Hathaway Energy subsidiary
+Sierra Pacific Power Co,BRK-B,Berkshire Hathaway,Berkshire Hathaway Energy subsidiary
+PacifiCorp,BRK-B,Berkshire Hathaway,Berkshire Hathaway Energy subsidiary
+MidAmerican Energy Co,BRK-B,Berkshire Hathaway,Berkshire Hathaway Energy subsidiary
+Alabama Power,SO,Southern Company,short form
+Georgia Power,SO,Southern Company,short form
+Entergy Arkansas,ETR,Entergy,Entergy operating company
+Entergy Louisiana,ETR,Entergy,Entergy operating company
+Entergy Mississippi,ETR,Entergy,Entergy operating company
+Entergy Texas,ETR,Entergy,Entergy operating company
+System Energy Resources,ETR,Entergy,Entergy nuclear operating company
+FirstEnergy Generation,FE,FirstEnergy,FirstEnergy generation arm
+Monongahela Power Co,FE,FirstEnergy,FirstEnergy operating company
+# Energy — refining and midstream subsidiaries
+Exxon Mobil Corp,XOM,Exxon Mobil Corporation,name form differs from S&P listing
+ExxonMobil Oil Corp,XOM,Exxon Mobil Corporation,operating subsidiary
+Chevron USA Inc,CVX,Chevron,operating subsidiary
+Marathon Petroleum Co LP,MPC,Marathon Petroleum,operating partnership
+Phillips 66 Co,PSX,Phillips 66,operating subsidiary
+Valero Refining,VLO,Valero Energy,operating subsidiary
+# Materials
+Nucor Steel,NUE,Nucor,operating subsidiary
+Dow Chemical Co,DOW,Dow,operating subsidiary
+LyondellBasell Industries,LYB,LyondellBasell Industries,name form
+# Promoted from rejected fuzzy matches after manual verification — real
+# subsidiaries/name-forms the tightened threshold would otherwise drop.
+Kinder Morgan Energy Partners LP,KMI,Kinder Morgan,operating partnership
+Occidental Permian Ltd,OXY,Occidental Petroleum,operating subsidiary
+Constellation Power Inc,CEG,Constellation Energy,operating subsidiary
+Consolidated Edison Company of NY Inc,ED,Consolidated Edison,name form with "NY" abbreviated
+# Large unresolved generators identified by triaging the reject list against the
+# S&P 500 constituents. Each is an operating subsidiary of a listed parent.
+# Owners NOT added, and why: Tennessee Valley Authority (federal), Salt River
+# Project / Omaha PPD / Nebraska PPD / CPS Energy (municipal), Basin Electric /
+# Oglethorpe / East Kentucky / Associated Electric (cooperatives), Georgia-Pacific
+# and Koch Industries (private), Shell and BP (not US-listed), Cleveland-Cliffs /
+# PBF / Portland General / Peabody / HF Sinclair (not S&P 500 constituents),
+# Tampa Electric (Emera-owned). A large share of US industrial emissions simply
+# is not attributable to an S&P 500 issuer.
+Luminant Generation Company LLC,VST,Vistra Corp.,Vistra's generation subsidiary
+NRG Texas Power LLC,NRG,NRG Energy,NRG operating subsidiary
+Kentucky Utilities Co,PPL,PPL Corporation,PPL operating utility
+Louisville Gas & Electric Co,PPL,PPL Corporation,PPL operating utility
+Evergy Metro Inc,EVRG,Evergy,Evergy operating utility
+Evergy Kansas Central Inc,EVRG,Evergy,Evergy operating utility
+AES Indiana Co,AES,AES Corporation,AES operating utility

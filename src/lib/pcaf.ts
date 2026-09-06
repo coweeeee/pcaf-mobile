@@ -16,31 +16,61 @@
  * re-derived here by `computeEvic` so the front end can verify it.
  */
 
-export type EmissionsTier = "reported" | "estimated";
+/**
+ * Where a company's Scope 1+2 figure came from. Ordered best to worst.
+ *  - climatetrace : facility-level emissions rolled up to the owning company
+ *  - epa_ghgrp    : direct emissions reported to the EPA Greenhouse Gas Reporting Program
+ *  - sector_proxy : GICS sector-average intensity x company revenue
+ */
+export type EmissionsSource = "climatetrace" | "epa_ghgrp" | "sector_proxy";
 
-/** One company in the static reference universe (public/data/universe.json). */
+/** How confidently the emitting entity was resolved to this issuer. */
+export type MatchConfidence = "high" | "medium" | "low" | "n/a";
+
+/** How much of the financial record came from explicit XBRL debt tags. */
+export type FinancialsConfidence = "high" | "medium" | "low";
+
+/** One company in the static reference universe (assets/data/universe.json). */
 export interface Company {
   ticker: string;
+  cik: string;
   name: string;
   sector: string;
   industry: string | null;
+
+  // --- financials, from SEC EDGAR XBRL + a live price ---
   market_cap: number;
+  market_cap_basis: string | null;
   total_debt: number;
+  /** The XBRL tag the debt figure actually came from. */
+  total_debt_tag: string | null;
+  /** "long_term_plus_current" is the intended basis; a liabilities proxy is weaker. */
+  total_debt_basis: string | null;
   minority_interest: number;
   minority_interest_assumed_zero: boolean;
   evic: number;
   revenue_musd: number;
-  emissions_tco2e_scope1: number | null;
-  emissions_tco2e_scope2_market: number | null;
+  revenue_tag: string | null;
+  financials_confidence: FinancialsConfidence;
+  /** Period end of the revenue figure, ISO date. */
+  financials_vintage: string | null;
+
+  // --- emissions ---
   emissions_tco2e_scope12: number;
+  emissions_source: EmissionsSource;
+  emissions_match_confidence: MatchConfidence;
+  /** Year the underlying emissions data covers. Null for the sector proxy. */
+  emissions_vintage: string | null;
+  emissions_note: string;
+  /**
+   * Facility rollup divided by what the sector average implies. Null when no
+   * facility data existed at all. Below the build's threshold the rollup was
+   * rejected as partial coverage and this record fell back a tier.
+   */
+  emissions_coverage_ratio: number | null;
   emissions_tco2e_scope3_estimated: number;
   scope3_multiplier: number;
   carbon_intensity_tco2e_per_musd: number;
-  emissions_tier: EmissionsTier;
-  emissions_source: string;
-  emissions_note: string;
-  emissions_reporting_year: number | null;
-  issuer_claims_third_party_assurance: boolean;
   data_quality_score: number;
 }
 
@@ -113,8 +143,11 @@ export interface PortfolioResult {
   dataQualityScoreByEmissions: number;
 
   sectorBreakdown: SectorAggregate[];
-  /** Count and value split between the reported and estimated emissions tiers. */
-  tierBreakdown: Record<EmissionsTier, { count: number; valueUsd: number; weight: number; financedEmissionsScope12: number }>;
+  /** Count and value split across the three emissions sources. Never blended silently. */
+  sourceBreakdown: Record<
+    EmissionsSource,
+    { count: number; valueUsd: number; weight: number; financedEmissionsScope12: number }
+  >;
   /** Holding count at each PCAF score 1..5. */
   dataQualityDistribution: Record<number, number>;
 }
@@ -290,14 +323,15 @@ export function computePortfolio(
     }))
     .sort((a, b) => b.financedEmissionsScope12 - a.financedEmissionsScope12);
 
-  const tierBreakdown = {
-    reported: { count: 0, valueUsd: 0, weight: 0, financedEmissionsScope12: 0 },
-    estimated: { count: 0, valueUsd: 0, weight: 0, financedEmissionsScope12: 0 },
-  } as PortfolioResult["tierBreakdown"];
+  const sourceBreakdown = {
+    climatetrace: { count: 0, valueUsd: 0, weight: 0, financedEmissionsScope12: 0 },
+    epa_ghgrp: { count: 0, valueUsd: 0, weight: 0, financedEmissionsScope12: 0 },
+    sector_proxy: { count: 0, valueUsd: 0, weight: 0, financedEmissionsScope12: 0 },
+  } as PortfolioResult["sourceBreakdown"];
   const dataQualityDistribution: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
 
   for (const h of holdings) {
-    const t = tierBreakdown[h.company.emissions_tier];
+    const t = sourceBreakdown[h.company.emissions_source];
     t.count += 1;
     t.valueUsd += h.marketValueUsd;
     t.weight += h.weight;
@@ -321,7 +355,7 @@ export function computePortfolio(
     dataQualityScoreByValue,
     dataQualityScoreByEmissions,
     sectorBreakdown,
-    tierBreakdown,
+    sourceBreakdown,
     dataQualityDistribution,
   };
 }
