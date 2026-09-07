@@ -60,6 +60,12 @@
         "projectId": "afdef701-e970-4b2e-a134-64aea7c15919"
       }
     },
-    "owner": "cowee"
+    "owner": "cowee",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/afdef701-e970-4b2e-a134-64aea7c15919"
+    }
   }
 }
